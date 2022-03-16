@@ -7,12 +7,14 @@ from integrator.schemas.schema import user, item, stock, order, order_line, loca
 
 
 def convert_to_pydantic(definition: Table, *exclude: str):
-    return create_model(str(definition.name),
-                        **{
-                            str(name): prop.type.python_type
-                            for name, prop in definition.columns.items()
-                            if name not in exclude
-                        })
+    name = str(definition.name).title()
+    cols = {
+        str(c_name): (c_prop.type.python_type, ... if c_prop.default is None and not c_prop.nullable else None)
+        for c_name, c_prop in definition.c.items()
+        if c_name not in exclude
+    }
+
+    return create_model(name, __base__=BaseModel, **cols)
 
 
 UserBase = convert_to_pydantic(user)
@@ -29,5 +31,22 @@ class PagingResponse(BaseModel):
     limit: int
 
 
+class CreateRequest(BaseModel):
+    class Config:
+        fields = {'id': {'exclude': True}}
+
+
 class ListItem(PagingResponse):
     items: List[ItemBase]
+
+
+class ListOrder(PagingResponse):
+    orders: List[OrderBase]
+
+
+class CreateItem(ItemBase, CreateRequest):
+    pass
+
+
+class CreateOrder(OrderBase, CreateRequest):
+    pass

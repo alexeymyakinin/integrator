@@ -18,3 +18,7 @@ def get_database_url():
 
 
 DATABASE_URL = get_database_url()
+
+SERVICE_HOST = env.str('SERVICE_HOST', '127.0.0.1')
+SERVICE_PORT = env.str('SERVICE_PORT', '8000')
+SERVICE_TEST = env.bool('SERVICE_TEST', False)
