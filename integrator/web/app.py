@@ -1,9 +1,9 @@
 import uvicorn
 from fastapi import FastAPI
 
-from integrator.web.config import SERVICE_TEST
 from integrator.routes import items
 from integrator.schemas.schema import metadata
+from integrator.web.config import SERVICE_TEST
 from integrator.web.dependencies import get_db
 
 

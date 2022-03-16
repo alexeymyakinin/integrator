@@ -2,6 +2,7 @@ from databases import Database
 from fastapi import APIRouter, Depends
 from sqlalchemy import func
 
+from integrator.models.models import ListOrder, OrderBase, CreateOrder
 from integrator.schemas.schema import order as order_schema
 from integrator.web.dependencies import get_db, get_paging
 
@@ -18,9 +19,9 @@ async def orders_paging(paging: dict = Depends(get_paging), database: Database =
             limit = paging['limit']
             total = await connection.fetch_val(func.count(order_schema.c.id).select())
             orders = await connection.fetch_all(order_schema
-                                               .select()
-                                               .limit(paging['limit'])
-                                               .offset(paging['offset']))
+                                                .select()
+                                                .limit(paging['limit'])
+                                                .offset(paging['offset']))
             return ListOrder(**{'limit': limit, 'total': total, 'orders': orders})
 
 
