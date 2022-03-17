@@ -1,6 +1,6 @@
 from databases import Database
 
-from integrator.web.config import DATABASE_URL
+from integrator.app.config import DATABASE_URL
 
 DB = Database(DATABASE_URL)
 

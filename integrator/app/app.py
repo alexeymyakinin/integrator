@@ -1,18 +1,18 @@
+import asyncio
+
 import uvicorn
+import uvloop
 from fastapi import FastAPI
 
-from integrator.routes import items
+from integrator.app.config import SERVICE_TEST
+from integrator.app.dependencies import get_db
+from integrator.app.routes import items
 from integrator.schemas.schema import metadata
-from integrator.web.config import SERVICE_TEST
-from integrator.web.dependencies import get_db
+
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 def create_app() -> FastAPI:
-    import uvloop
-    import asyncio
-
-    asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
-
     app = FastAPI(
         debug=SERVICE_TEST,
     )
