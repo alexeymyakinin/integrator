@@ -4,8 +4,8 @@ from alembic import context
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from integrator.app.config import DATABASE_URL
-from integrator.schemas.schema import metadata
+from app.config import DATABASE_URL
+from app.schemas.postgres import metadata
 
 config = context.config
 

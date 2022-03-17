@@ -2,13 +2,13 @@ from databases import Database
 from fastapi import APIRouter, Depends
 from sqlalchemy import func
 
-from integrator.app.dependencies import get_db, get_paging
-from integrator.models.models import ItemBase, ListItem, CreateItem
-from integrator.schemas.schema import item as item_schema
+from app.models.models import ItemBase, ListItem, CreateItem
+from app.schemas.postgres import item as item_schema
+from app.web.dependencies import get_db, get_paging
 
 router = APIRouter(
     tags=['item'],
-    prefix='/api/items',
+    prefix='/context/items',
 )
 
 

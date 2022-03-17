@@ -3,7 +3,7 @@ from typing import List
 from pydantic import create_model, BaseModel
 from sqlalchemy import Table
 
-from integrator.schemas.schema import user, item, stock, order, order_line, location, vendor
+from app.schemas.postgres import item, stock, order_line, location, vendor, user
 
 
 def convert_to_pydantic(definition: Table, *exclude: str):
@@ -20,7 +20,7 @@ def convert_to_pydantic(definition: Table, *exclude: str):
 UserBase = convert_to_pydantic(user)
 ItemBase = convert_to_pydantic(item)
 StockBase = convert_to_pydantic(stock)
-OrderBase = convert_to_pydantic(order)
+OrderBase = convert_to_pydantic(order_line)
 VendorBase = convert_to_pydantic(vendor)
 LocationBase = convert_to_pydantic(location)
 OrderLineBase = convert_to_pydantic(order_line)

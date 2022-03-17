@@ -2,13 +2,13 @@ from databases import Database
 from fastapi import APIRouter, Depends
 from sqlalchemy import func
 
-from integrator.app.dependencies import get_db, get_paging
-from integrator.models.models import ListOrder, OrderBase, CreateOrder
-from integrator.schemas.schema import order as order_schema
+from app.models.models import ListOrder, OrderBase, CreateOrder
+from app.schemas.postgres import order as order_schema
+from app.web.dependencies import get_db, get_paging
 
 router = APIRouter(
     tags=['order'],
-    prefix='/api/order',
+    prefix='/context/order',
 )
 
 

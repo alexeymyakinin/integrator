@@ -4,10 +4,10 @@ import uvicorn
 import uvloop
 from fastapi import FastAPI
 
-from integrator.app.config import SERVICE_TEST
-from integrator.app.dependencies import get_db
-from integrator.app.routes import items
-from integrator.schemas.schema import metadata
+from app.config import SERVICE_TEST
+from app.routes import items
+from app.schemas.postgres import metadata
+from app.web.dependencies import get_db
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 

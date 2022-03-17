@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: /bin/bash gunicorn app/app/main.py:create_app
+    depends_on:
+      - db-postgres
+  #  sync:
+  #    build: app/sync
+  #    depends_on:
+  #      - app
+  #      - db-mongo
+  #      - db-postgres
+  db-mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+  db-postgres:
+    image: postgres
+    ports:
+      - "5433:5432"

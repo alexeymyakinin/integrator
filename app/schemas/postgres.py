@@ -1,7 +1,7 @@
 from sqlalchemy import MetaData, Table, Column, Integer, String, ForeignKey, Enum, Numeric
 from sqlalchemy.dialects.postgresql import JSONB
 
-from integrator.schemas.enums import OrderStatus, UserGroup
+from app.schemas.enums import OrderStatus, UserGroup
 
 metadata = MetaData()
 

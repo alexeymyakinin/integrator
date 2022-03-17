@@ -1,18 +1,11 @@
-FROM python:3.10-alpine
+FROM python:3.10-slim
 
-ENV DATABASE_HOST=$DATABASE_HOST
-ENV DATABASE_PORT=$DATABASE_PORT
-ENV DATABASE_USER=$DATABASE_USER
-ENV DATABASE_NAME=$DATABASE_NAME
-ENV DATABASE_PASSWORD=$DATABASE_PASSWORD
+WORKDIR /usr/src/app
 
-ONBUILD EXPOSE 8000
-ONBUILD RUN apk update && \
-            apk add postgresql postgresql-contrib
-ONBUILD RUN python3.10 -m pip install -r requirements.txt
+RUN apt update && apt upgrade -y
+RUN apt install -y gcc postgresql postgresql-contrib
+RUN pip install -U setuptools
 
+COPY . .
 
-ENTRYPOINT ["gunicorn"]
-CMD ["integrator:app:create_app"]
-
-
+RUN pip install -r requirements.txt
