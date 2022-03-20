@@ -1,20 +1,20 @@
 from __future__ import annotations
 
-from typing import Set, Dict, Any, AsyncGenerator
+from typing import Set, Dict, Any, AsyncGenerator, Callable
 
 from functional import seq
 
-from sync.adapter.handler import Handler
-from sync.context.client import ClientAPI
-from sync.context.vendor import VendorAPI
-from sync.types import Setting
+from app.sync.adapter.handler import Handler
+from app.sync.context.client import ClientAPI
+from app.sync.context.vendor import VendorAPI
+from app.types import Setting
 
 
 class AdapterBuilder:
     def __init__(self):
         self._config: Dict[str, Any] = dict()
-        self._config['handlers'] = set()
-        self._config['settings'] = set()
+        self._config['handlers'] = list()
+        self._config['settings'] = list()
 
     def build(self):
         return Adapter(**self._config)
@@ -28,11 +28,11 @@ class AdapterBuilder:
         return self
 
     def with_handler(self, handler: Handler) -> AdapterBuilder:
-        self._config['handlers'].add(handler)
+        self._config['handlers'].append(handler)
         return self
 
     def with_setting(self, setting: Setting) -> AdapterBuilder:
-        self._config['settings'].add(setting)
+        self._config['settings'].append(setting)
         return self
 
     def with_client_base_url(self, url: str) -> AdapterBuilder:
@@ -40,7 +40,7 @@ class AdapterBuilder:
         return self
 
     def with_vendor_base_url(self, url: str) -> AdapterBuilder:
-        self._config['vendor_base_ulr'] = url
+        self._config['vendor_base_url'] = url
         return self
 
 
@@ -68,8 +68,7 @@ class Adapter:
     def vendor_api(self):
         return self._vendor_api
 
-    def get_handlers(self) -> Set[AsyncGenerator]:
+    def get_handlers(self) -> Set[Callable[[Adapter], AsyncGenerator]]:
         return (seq(self._handlers)
                 .map(lambda h: h['processor'])
-                .map(lambda f: f(self))
                 .set())

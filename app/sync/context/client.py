@@ -1,4 +1,4 @@
-from sync.context.base import BaseAPI
+from app.sync.context.base import BaseAPI
 
 
 class ClientAPI(BaseAPI):
